@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "NodeNext", // Change to NodeNext to match moduleResolution
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "strict": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "baseUrl": "."
+  },
+  "include": ["scripts/migrate-passwords.ts"],
+  "exclude": ["node_modules"]
+}

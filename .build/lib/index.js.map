@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../lib/index.js"],
+  "sourcesContent": ["import * as sst from \"@serverless-stack/resources\";\n\nexport default class MyStack extends sst.Stack {\n    constructor(scope, id, props) {\n        super(scope, id, props);\n\n        // Define resources here\n    }\n}\n"],
+  "mappings": ";;;;;AAAA,YAAY,SAAS;AAErB,IAAqB,UAArB,cAAyC,UAAM;AAAA,EAC3C,YAAY,OAAO,IAAI,OAAO;AAC1B,UAAM,OAAO,IAAI,KAAK;AAAA,EAG1B;AACJ;AANqB;",
+  "names": []
+}

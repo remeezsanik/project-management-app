@@ -31,7 +31,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="flex">
       <SidebarProvider defaultOpen={true}>
         <Sidebar collapsible="icon">
-          <SidebarHeader className="border-b border-gray-800 p-4">
+          <SidebarHeader className="border-b border-gray-800/20 p-4">
             <h1 className="gradient-text overflow-hidden text-xl font-bold text-indigo-500">
               {isSidebarOpen ? "Project X" : "X"}
             </h1>
@@ -88,8 +88,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </Button>
           </SidebarFooter>
         </Sidebar>
-        <main className="flex-1 bg-slate-400 bg-opacity-20 p-6">
-          <div className="mb-10">
+        <main className="flex-1 bg-white p-6">
+          <div className="mb-2">
             <SidebarTrigger onClick={toggleSidebar} />
           </div>
           {children}

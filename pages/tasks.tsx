@@ -167,10 +167,10 @@ export default function TasksPage() {
   return (
     <Layout>
       <div
-        className="mt-2 space-y-6 p-4"
+        className="space-y-6 p-6"
         style={{
-          background: "linear-gradient(135deg, #f5f7fa 0%, #e4eaf5 100%)",
-          borderRadius: "12px",
+          background: "linear-gradient(135deg, #f0f4ff 0%, #e4eaff 100%)",
+          borderRadius: "16px",
           minHeight: "calc(100vh - 80px)",
         }}
       >

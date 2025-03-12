@@ -111,7 +111,7 @@ export default function HomePage() {
   return (
     <Layout>
       <div
-        className="relative mt-2 space-y-6 p-6"
+        className="relative space-y-6 p-6"
         style={{
           background: "linear-gradient(135deg, #f0f4ff 0%, #e4eaff 100%)",
           borderRadius: "16px",

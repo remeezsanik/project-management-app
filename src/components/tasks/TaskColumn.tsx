@@ -20,13 +20,23 @@ export function TaskColumn({
 }) {
   const styles = taskUtils.getStatusStyles(status);
   return (
-    <Card className={`group overflow-hidden rounded-2xl border-none shadow-lg transition-all hover:shadow-xl ${styles.gradientClass}`}>
-      <CardHeader className={`${styles.headerBg} border-b ${styles.borderColor} p-4`}>
+    <Card
+      className={`group overflow-hidden rounded-2xl border-none shadow-lg transition-all hover:shadow-xl ${styles.gradientClass}`}
+    >
+      <CardHeader
+        className={`${styles.headerBg} border-b ${styles.borderColor} p-4`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {status === "Todo" && <List size={20} className={styles.textColor} />}
-            {status === "InProgress" && <Clock size={20} className={styles.textColor} />}
-            {status === "Done" && <CheckCircle size={20} className={styles.textColor} />}
+            {status === "Todo" && (
+              <List size={20} className={styles.textColor} />
+            )}
+            {status === "InProgress" && (
+              <Clock size={20} className={styles.textColor} />
+            )}
+            {status === "Done" && (
+              <CheckCircle size={20} className={styles.textColor} />
+            )}
             <CardTitle className={`text-lg font-semibold ${styles.textColor}`}>
               {status}
             </CardTitle>

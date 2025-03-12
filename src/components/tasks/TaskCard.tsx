@@ -20,16 +20,22 @@ export function TaskCard({
   return (
     <div
       className={`rounded-xl border border-gray-100 p-4 shadow-sm transition-shadow hover:shadow-lg ${
-        isOverdue ? "border-red-300 bg-red-50" : "bg-white"
+        isOverdue ? "!border-red-300 !bg-red-50" : "bg-white"
       }`}
     >
       <div className="mb-2 flex items-start justify-between">
         <h3 className="font-medium text-gray-900">
           {task.title}
-          {isOverdue && <span className="ml-2 text-xs font-medium text-red-600">(Overdue)</span>}
+          {isOverdue && (
+            <span className="ml-2 text-xs font-medium text-red-600">
+              (Overdue)
+            </span>
+          )}
         </h3>
         <div className="flex items-center gap-2">
-          <Badge className={taskUtils.getPriorityColor(task.priority)}>{task.priority}</Badge>
+          <Badge className={taskUtils.getPriorityColor(task.priority)}>
+            {task.priority}
+          </Badge>
           <Button variant="ghost" size="sm" onClick={() => onEdit(task)}>
             <Edit size={16} className="text-amber-600" />
           </Button>
@@ -39,11 +45,16 @@ export function TaskCard({
         </div>
       </div>
       {task.description && (
-        <p className="mb-3 line-clamp-2 text-sm text-gray-600">{task.description}</p>
+        <p className="mb-3 line-clamp-2 text-sm text-gray-600">
+          {task.description}
+        </p>
       )}
       <div className="mb-3 flex flex-wrap gap-2">
         {task.tags?.map((tag) => (
-          <div key={tag} className="flex items-center rounded bg-gray-100 px-2 py-1 text-xs text-gray-800">
+          <div
+            key={tag}
+            className="flex items-center rounded bg-gray-100 px-2 py-1 text-xs text-gray-800"
+          >
             <Tag size={12} className="mr-1" />
             {tag}
           </div>
@@ -84,7 +95,10 @@ export function TaskCard({
                 : "text-green-600 hover:text-green-700"
             }`}
             onClick={() =>
-              onUpdateStatus(task.id, task.status === "Todo" ? "InProgress" : "Done")
+              onUpdateStatus(
+                task.id,
+                task.status === "Todo" ? "InProgress" : "Done",
+              )
             }
           >
             <CheckCircle size={14} className="mr-1" />

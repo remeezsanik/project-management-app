@@ -111,65 +111,74 @@ export default function Profile() {
 
   return (
     <Layout>
-      <Card className="mb-6 mt-2 rounded-2xl bg-white shadow-lg">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4">
-            <div className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 p-3 text-white shadow-lg">
-              <User size={30} />
+      <div
+        className="relative space-y-6 p-6"
+        style={{
+          background: "linear-gradient(135deg, #f0f4ff 0%, #e4eaff 100%)",
+          borderRadius: "16px",
+          minHeight: "calc(100vh - 80px)",
+        }}
+      >
+        <Card className="mb-6 rounded-2xl bg-white shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 p-3 text-white shadow-lg">
+                <User size={30} />
+              </div>
+              <div>
+                <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-3xl font-bold text-transparent">
+                  Profile Management
+                </h1>
+              </div>
             </div>
-            <div>
-              <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-3xl font-bold text-transparent">
-                Profile Management
-              </h1>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <div className="flex flex-col items-center justify-center py-10">
-        <Card className="w-full max-w-lg rounded-lg bg-white p-6 shadow-lg">
-          <CardHeader className="flex flex-col items-center gap-4">
-            <Avatar className="h-20 w-20 text-blue-600">
-              <AvatarImage src={session?.user?.image || ""} />
-              <AvatarFallback className="text-2xl font-bold">
-                {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
-              </AvatarFallback>
-            </Avatar>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label>Email</Label>
-              <Input
-                type="email"
-                value={session?.user?.email || ""}
-                disabled
-                className="border-gray-300"
-              />
-            </div>
-            <div>
-              <Label>Name</Label>
-              <Input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="border-gray-300"
-                disabled={loading}
-              />
-            </div>
-            <Button
-              onClick={handleUpdate}
-              className="flex w-full items-center justify-center gap-2 bg-blue-600"
-              disabled={loading || !isChanged}
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" /> Updating...
-                </>
-              ) : (
-                "Update Profile"
-              )}
-            </Button>
           </CardContent>
         </Card>
+        <div className="flex flex-col items-center justify-center py-10">
+          <Card className="w-full max-w-lg rounded-lg bg-white p-6 shadow-lg">
+            <CardHeader className="flex flex-col items-center gap-4">
+              <Avatar className="h-20 w-20 text-blue-600">
+                <AvatarImage src={session?.user?.image || ""} />
+                <AvatarFallback className="text-2xl font-bold">
+                  {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
+                </AvatarFallback>
+              </Avatar>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  value={session?.user?.email || ""}
+                  disabled
+                  className="border-gray-300"
+                />
+              </div>
+              <div>
+                <Label>Name</Label>
+                <Input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="border-gray-300"
+                  disabled={loading}
+                />
+              </div>
+              <Button
+                onClick={handleUpdate}
+                className="flex w-full items-center justify-center gap-2 bg-blue-600"
+                disabled={loading || !isChanged}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" /> Updating...
+                  </>
+                ) : (
+                  "Update Profile"
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </Layout>
   );

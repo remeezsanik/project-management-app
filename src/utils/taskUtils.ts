@@ -2,8 +2,10 @@ import { Task } from "@/types/task";
 
 export function isTaskOverdue(task: Task): boolean {
   if (!task.deadline || task.status === "Done") return false;
-  return new Date(task.deadline) < new Date();
+  const taskDeadline = new Date(task.deadline);
+  return !isNaN(taskDeadline.getTime()) && taskDeadline < new Date();
 }
+
 
 export function sortTasks(tasks: Task[]): Task[] {
   return tasks.sort((a, b) => {
@@ -17,16 +19,16 @@ export function sortTasks(tasks: Task[]): Task[] {
 }
 
 export function getPriorityColor(priority: string): string {
-  switch (priority) {
-    case "High":
-      return "bg-red-100 text-red-800";
-    case "Medium":
-      return "bg-yellow-100 text-yellow-800";
-    case "Low":
-      return "bg-green-100 text-green-800";
-    default:
-      return "bg-gray-100 text-gray-800";
-  }
+ switch (priority) {
+      case "High":
+        return "bg-red-100 text-red-800 hover:text-red-800 hover:bg-white hover:border-red-800/40";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800 hover:text-yellow-800 hover:bg-white hover:border-yellow-800/40";
+      case "Low":
+        return "bg-green-100 text-green-800 hover:text-green-800 hover:bg-white hover:border-green-800/40";
+      default:
+        return "bg-gray-100 text-gray-800 hover:text-gray-800 hover:bg-white hover:border-gray-800/40";
+    }
 }
 
 export function getStatusStyles(status: string): {
@@ -43,7 +45,7 @@ export function getStatusStyles(status: string): {
         headerBg: "bg-white bg-opacity-50",
         borderColor: "border-gray-200",
         textColor: "text-orange-600",
-        badgeClass: "bg-orange-200 text-orange-800",
+        badgeClass: "bg-orange-200 text-orange-800 hover:text-orange-800 hover:bg-white hover:border-orange-800/40",
       };
     case "InProgress":
       return {
@@ -51,7 +53,7 @@ export function getStatusStyles(status: string): {
         headerBg: "bg-white bg-opacity-50",
         borderColor: "border-blue-200",
         textColor: "text-blue-700",
-        badgeClass: "bg-blue-200 text-blue-800",
+        badgeClass: "bg-blue-200 text-blue-800 hover:text-blue-800 hover:bg-white hover:border-blue-800/40",
       };
     case "Done":
       return {
@@ -59,7 +61,7 @@ export function getStatusStyles(status: string): {
         headerBg: "bg-white bg-opacity-50",
         borderColor: "border-green-200",
         textColor: "text-green-700",
-        badgeClass: "bg-green-200 text-green-800",
+        badgeClass: "bg-green-200 text-green-800 hover:text-green-800 hover:bg-white hover:border-green-800/40",
       };
     default:
       return {
@@ -67,7 +69,7 @@ export function getStatusStyles(status: string): {
         headerBg: "bg-white bg-opacity-50",
         borderColor: "border-gray-200",
         textColor: "text-gray-700",
-        badgeClass: "bg-gray-200 text-gray-800",
+        badgeClass: "bg-gray-200 text-gray-800 hover:text-gray-800 hover:bg-white hover:border-gray-800/40",
       };
   }
 }

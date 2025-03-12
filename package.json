@@ -10,7 +10,7 @@
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "dev": "sst bind next dev",
+    "dev": "next dev",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "postinstall": "prisma generate",
@@ -19,8 +19,7 @@
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
-    "deploy": "sst deploy --stage production"
+    "test": "jest"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
@@ -53,7 +52,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sonner": "^2.0.1",
-    "sst": "^3.9.33",
     "superjson": "^2.2.1",
     "zod": "^3.23.3"
   },
@@ -61,8 +59,6 @@
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
-    "@serverless-stack/cli": "^1.18.4",
-    "@serverless-stack/resources": "^1.18.4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
@@ -75,10 +71,9 @@
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "autoprefixer": "^10.4.20",
-    "aws-cdk-lib": "2.50.0",
     "babel-jest": "^29.7.0",
     "clsx": "^2.1.1",
-    "constructs": "^10.4.2",
+    "constructs": "10.3.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.0.1",
     "identity-obj-proxy": "^3.0.0",

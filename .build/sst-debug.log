@@ -1,8 +1,5 @@
-[2025-03-11T15:28:24.022] [DEBUG] default - SST: 1.18.4
-[2025-03-11T15:28:24.024] [DEBUG] default - CDK: 2.50.0
-[2025-03-11T15:28:24.027] [DEBUG] aws-auth - Determining if we're on an EC2 instance.
-[2025-03-11T15:28:24.027] [DEBUG] aws-auth - Does not look like an EC2 instance.
-[2025-03-11T15:28:24.065] [INFO] default - Using stage: production
-[2025-03-11T15:28:24.065] [INFO] default - [90mPreparing your SST app[39m
-[2025-03-11T15:28:27.617] [INFO] default - 
-[2025-03-11T15:28:27.618] [ERROR] default - User: arn:aws:iam::311141529832:user/RMZ-SLS-Deployment-User is not authorized to perform: ssm:GetParameters on resource: arn:aws:ssm:ap-south-1:311141529832:parameter/sst/bootstrap/version because no identity-based policy allows the ssm:GetParameters action
+[2025-03-12T23:10:22.566] [DEBUG] default - SST: 1.18.4
+[2025-03-12T23:10:22.567] [DEBUG] default - CDK: 2.50.0
+[2025-03-12T23:10:22.568] [INFO] default - 
+[2025-03-12T23:10:22.568] [ERROR] default - Add the [1msst.json[22m config file in your project root to get started. Or use the [1mcreate-sst[22m CLI to create a new project.
+

@@ -1,32 +1,17 @@
-import { createClient } from "@supabase/supabase-js";
+import { APIGatewayEvent } from "aws-lambda";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
-
-export async function create(event: any) {
-  const { title, description } = JSON.parse(event.body || "{}");
-
-  const { data, error } = await supabase
-    .from("tasks")
-    .insert([{ title, description }]);
-
-  if (error) return { statusCode: 500, body: JSON.stringify(error) };
+export async function create(event: APIGatewayEvent) {
+  const body = JSON.parse(event.body || "{}");
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: "Task Created", task: data }),
+    body: JSON.stringify({ message: "Task Created", task: body }),
   };
 }
 
 export async function list() {
-  const { data, error } = await supabase.from("tasks").select("*");
-
-  if (error) return { statusCode: 500, body: JSON.stringify(error) };
-
   return {
     statusCode: 200,
-    body: JSON.stringify({ tasks: data }),
+    body: JSON.stringify({ tasks: [{ id: 1, name: "Sample Task" }] }),
   };
 }

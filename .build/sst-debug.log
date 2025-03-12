@@ -1,5 +1,0 @@
-[2025-03-12T23:10:22.566] [DEBUG] default - SST: 1.18.4
-[2025-03-12T23:10:22.567] [DEBUG] default - CDK: 2.50.0
-[2025-03-12T23:10:22.568] [INFO] default - 
-[2025-03-12T23:10:22.568] [ERROR] default - Add the [1msst.json[22m config file in your project root to get started. Or use the [1mcreate-sst[22m CLI to create a new project.
-

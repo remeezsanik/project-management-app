@@ -23,7 +23,7 @@ export default NextAuth({
         }
 
         const { data, error } = await supabase
-          .from("User")
+          .from("Users")
           .select("*")
           .eq("email", credentials.email);
 
@@ -58,7 +58,7 @@ export default NextAuth({
         session.user.id = token.sub;
         // Fetch latest name from Supabase
         const { data, error } = await supabase
-          .from("User")
+          .from("Users")
           .select("name")
           .eq("id", token.sub)
           .single();

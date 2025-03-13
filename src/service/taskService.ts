@@ -18,7 +18,7 @@ export async function getTasks() {
     };
     if (task.assignedTo) {
       const { data: userData, error } = await supabase
-        .from("User")
+        .from("Users")
         .select("id, name, image")
         .eq("id", task.assignedTo)
         .single();
@@ -30,7 +30,7 @@ export async function getTasks() {
 }
 
 export async function getUsers() {
-  const { data, error } = await supabase.from("User").select("id, name, image");
+  const { data, error } = await supabase.from("Users").select("id, name, image");
   if (error) throw error;
   return data || [];
 }

@@ -7,7 +7,7 @@ const supabase = createClient(
 
 export const updateUserProfile = async (userId: string, name: string) => {
   const { error } = await supabase
-    .from("User")
+    .from("Users")
     .update({ name })
     .eq("id", userId);
 

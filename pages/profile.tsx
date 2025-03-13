@@ -1,6 +1,6 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { signIn, useSession } from "next-auth/react";
+import { useState, useEffect, useCallback } from "react";
+import { Session } from "next-auth";
 import Layout from "@/components/Layout";
 import { Button } from "../components/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/avatar";
@@ -9,82 +9,65 @@ import { Input } from "../components/input";
 import { Label } from "../components/label";
 import { toast } from "sonner";
 import { User, Loader2 } from "lucide-react";
-import { useRouter } from "next/router";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
+import { updateUserProfile } from "@/service/userService";
 
 export default function Profile() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
 
-  // Initialize name from session when available
   useEffect(() => {
     if (session?.user?.name) {
       setName(session.user.name);
     }
   }, [session?.user?.name]);
 
-  // Track changes to determine if update button should be enabled
   useEffect(() => {
     setIsChanged(name !== session?.user?.name && name.trim() !== "");
   }, [name, session?.user?.name]);
 
-  const handleUpdate = async () => {
-    if (!session?.user?.id) {
-      toast.error("User ID not found");
-      return;
-    }
+  const debounceUpdate = useCallback(
+    async (newName: string) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await update({ name: newName });
+    },
+    [update],
+  );
 
-    setLoading(true);
-
+  async function handleUpdateUser(session: Session | null, name: string) {
     try {
-      // Update the user in Supabase
-      const { error } = await supabase
-        .from("User")
-        .update({ name })
-        .eq("id", session.user.id);
-
-      if (error) {
-        throw new Error(error.message);
+      if (!session?.user?.id) {
+        throw new Error("User ID is missing");
       }
 
-      // Make a direct API call to your NextAuth API endpoint to update the session
-      const response = await fetch("/api/auth/update-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: session.user.id,
-          name,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update session");
+      const trimmedName = name.trim();
+      if (!trimmedName || trimmedName.length < 2) {
+        throw new Error("Name must be at least 2 characters long");
       }
 
+      setLoading(true);
+      await updateUserProfile(session.user.id, trimmedName);
+      setName(trimmedName);
       toast.success("Profile updated successfully");
-      setLoading(false);
+
+      debounceUpdate(trimmedName).catch((err) =>
+        console.error("Session update error:", err),
+      );
     } catch (error) {
       console.error("Update error:", error);
       toast.error(
         error instanceof Error ? error.message : "Failed to update profile",
       );
+    } finally {
       setLoading(false);
     }
-  };
+  }
 
   if (status === "loading") {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
       </div>
     );
   }
@@ -164,8 +147,8 @@ export default function Profile() {
                 />
               </div>
               <Button
-                onClick={handleUpdate}
-                className="flex w-full items-center justify-center gap-2 bg-blue-600"
+                onClick={() => handleUpdateUser(session, name)}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
                 disabled={loading || !isChanged}
               >
                 {loading ? (

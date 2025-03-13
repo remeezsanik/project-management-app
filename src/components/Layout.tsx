@@ -16,6 +16,7 @@ import { Home as HomeIcon, ListTodo, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Toaster } from "../../components/sonner";
+import XLogo from "./icon/XLogo";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
@@ -34,12 +35,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           collapsible="icon"
           className="border-r border-gray-100 bg-white shadow-sm"
         >
-          <SidebarHeader className="border-b border-gray-200 p-4">
+          <SidebarHeader className="border-b border-gray-200 p-3">
             <Link
               href="/home"
               className="cursor-pointer overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent"
             >
-              {isSidebarOpen ? "Project X" : "X"}
+              {isSidebarOpen ? (
+                <div className="flex items-center gap-1">
+                  <h1 className="gradient-text font-light tracking-wider">
+                    Project{" "}
+                  </h1>
+                  <XLogo
+                    className="ml-1 text-indigo-600"
+                    width={25}
+                    height={25}
+                  />
+                </div>
+              ) : (
+                <XLogo className="text-indigo-600" />
+              )}
             </Link>
           </SidebarHeader>
           <SidebarContent>
@@ -98,7 +112,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white transition-colors hover:bg-gray-50"
             >
               {isSidebarOpen && (
-                <span className="gradient-text font-medium text-gray-700">
+                <span className="gradient-text font-semibold text-gray-700">
                   Log Out
                 </span>
               )}

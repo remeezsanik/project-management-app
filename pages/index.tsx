@@ -2,6 +2,7 @@ import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Button } from "../components/button";
 import { useState, useEffect } from "react";
+import XLogo from "@/components/icon/XLogo";
 
 export default function LandingPage() {
   const { data: session } = useSession();
@@ -72,8 +73,9 @@ export default function LandingPage() {
               </g>
             </svg>
           </div>
-          <h1 className="mb-2 text-4xl font-bold text-white">
-            Welcome to Project X
+          <h1 className="mb-2 flex items-center gap-2 text-4xl font-bold text-white">
+            Welcome to Project{" "}
+            <XLogo width={35} height={35} className="inline-block" />
           </h1>
 
           <div className="mb-6 h-1 w-16 rounded-full bg-white/50"></div>

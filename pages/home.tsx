@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/card";
 import {
@@ -17,8 +17,8 @@ import { useTasksData } from "@/hooks/useTasksData";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
+  const { tasks, taskError, isLoading } = useTasksData(session);
   const router = useRouter();
-  const { tasks, error, isLoading } = useTasksData(session);
 
   const taskStats = useMemo(() => {
     if (!tasks || !tasks.length) {
@@ -118,11 +118,11 @@ export default function HomePage() {
           </CardContent>
         </Card>
 
-        {error && (
+        {taskError && (
           <div className="mb-6 animate-pulse rounded-2xl border border-red-200 bg-red-100 p-5 text-red-700 shadow-md">
             <div className="flex items-center gap-3">
               <AlertTriangle size={20} />
-              <p className="font-medium">{error.message}</p>
+              <p className="font-medium">{taskError}</p>
             </div>
           </div>
         )}

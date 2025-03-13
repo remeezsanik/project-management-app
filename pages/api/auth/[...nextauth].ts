@@ -17,41 +17,24 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) {
-          return null;  // Return null instead of throwing an error
-        }
-        if (!credentials || !credentials.email || !credentials.password) {
+        if (!credentials?.email || !credentials?.password) {
           console.log("Missing credentials:", { credentials });
           return null;
         }
-        
+
         const { data, error } = await supabase
           .from("User")
           .select("*")
           .eq("email", credentials.email);
-        
-        if (error) {
-          console.error("Supabase error:", error.message);
-          throw new Error("Database error: " + error.message);
-        }
-        
-        if (!data || data.length === 0) {
-          console.error("No user found with email:", credentials.email);
-          throw new Error("No user found with this email");
-        }
-        
+
+        if (error) throw new Error("Database error: " + error.message);
+        if (!data || data.length === 0) throw new Error("No user found with this email");
+
         const user = data[0];
-        
-        // Using bcrypt to compare passwords
         const isValid = await bcrypt.compare(credentials.password, user.password);
-        
-        if (!isValid) {
-          console.error("Invalid password for user:", credentials.email);
-          throw new Error("Invalid password");
-        }
-        
+        if (!isValid) throw new Error("Invalid password");
+
         console.log("Authentication successful:", user.email);
-        
         return {
           id: user.id,
           name: user.name,
@@ -66,11 +49,28 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = user.id;
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) session.user.id = token.id as string;
+      if (token.sub) {
+        session.user.id = token.sub;
+        // Fetch latest name from Supabase
+        const { data, error } = await supabase
+          .from("User")
+          .select("name")
+          .eq("id", token.sub)
+          .single();
+
+        if (error) {
+          console.error("Error fetching user name:", error.message);
+        } else if (data) {
+          session.user.name = data.name;
+        }
+      }
       return session;
     },
   },

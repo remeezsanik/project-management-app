@@ -52,18 +52,18 @@ export function TaskDialog({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="max-w-md md:max-w-xl"
+        className="max-w-md md:max-w-2xl"
         style={{
           background: "linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%)",
           borderRadius: "16px",
           boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <DialogTitle className="flex items-center gap-2 text-2xl font-bold text-gray-800">
+        <DialogTitle className="gradient-text flex items-center gap-2 text-2xl font-bold">
           {task ? (
-            <Edit className="h-6 w-6 text-blue-600" />
+            <Edit className="h-6 w-6 text-indigo-600" />
           ) : (
-            <PlusCircle className="h-6 w-6 text-blue-600" />
+            <PlusCircle className="h-6 w-6 text-indigo-600" />
           )}
           {task ? "Edit Task" : "Create New Task"}
         </DialogTitle>

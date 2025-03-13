@@ -7,6 +7,8 @@ export function useTasksData(session: any) {
   const [users, setUsers] = useState<UserType[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | undefined>();
+
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -21,6 +23,12 @@ export function useTasksData(session: any) {
       setTags(tagsData);
     } catch (error) {
       console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);
+      if (error instanceof Error) {
+        setError(error);
+      } else {
+        setError(new Error("An unknown error occurred"));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -28,7 +36,7 @@ export function useTasksData(session: any) {
 
   useEffect(() => {
     if (session) fetchData();
-  }, [session]);
+  }, [session?.user?.id]);
 
-  return { tasks, users, tags, isLoading, fetchTasks: fetchData };
+  return { tasks, users, tags,error, isLoading, fetchTasks: fetchData };
 }

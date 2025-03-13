@@ -7,11 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "components/select";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "components/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "components/avatar";
 import { Button } from "components/button";
 import { CalendarIcon, AlertCircle } from "lucide-react";
 import { Task, UserType } from "@/types/task";
@@ -40,45 +36,50 @@ export function TaskForm({
     ) : null;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6 pt-4">
+    <form
+      onSubmit={onSubmit}
+      className="space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow-lg"
+    >
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-semibold text-gray-700">
           Title <span className="text-red-500">*</span>
         </label>
         <Input
           name="title"
-          placeholder="Task Title"
+          placeholder="Enter task title"
           defaultValue={task?.title || ""}
-          className={`w-full rounded-md ${
+          className={`w-full rounded-lg border-2 ${
             errors.title
-              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              ? "border-red-500 focus:border-red-500"
+              : "border-gray-300 focus:border-blue-500"
           }`}
         />
         <FieldError error={errors.title} />
       </div>
+
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-semibold text-gray-700">
           Description
         </label>
         <Textarea
           name="description"
-          placeholder="Detailed description..."
-          className="h-24 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Write a detailed description..."
+          className="h-28 w-full rounded-lg border-2 border-gray-300 focus:border-blue-500"
           defaultValue={task?.description || ""}
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+
+      <div className="grid grid-cols-2 gap-6">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
             Priority <span className="text-red-500">*</span>
           </label>
           <Select name="priority" defaultValue={task?.priority || "Medium"}>
             <SelectTrigger
-              className={`w-full rounded-md ${
+              className={`w-full rounded-lg border-2 ${
                 errors.priority
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  ? "border-red-500"
+                  : "border-gray-300 focus:border-blue-500"
               }`}
             >
               <SelectValue placeholder="Select priority" />
@@ -91,19 +92,20 @@ export function TaskForm({
           </Select>
           <FieldError error={errors.priority} />
         </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
             Deadline <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <CalendarIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+            <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
             <Input
               name="deadline"
               type="date"
-              className={`w-full rounded-md pl-10 ${
+              className={`w-full rounded-lg border-2 pl-10 ${
                 errors.deadline
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  ? "border-red-500"
+                  : "border-gray-300 focus:border-blue-500"
               }`}
               defaultValue={
                 task?.deadline ? task.deadline.toISOString().split("T")[0] : ""
@@ -113,8 +115,9 @@ export function TaskForm({
           <FieldError error={errors.deadline} />
         </div>
       </div>
+
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-semibold text-gray-700">
           Assign To <span className="text-red-500">*</span>
         </label>
         <Select
@@ -122,10 +125,10 @@ export function TaskForm({
           defaultValue={task?.assignedTo ?? session?.user?.id ?? ""}
         >
           <SelectTrigger
-            className={`w-full rounded-md ${
+            className={`w-full rounded-lg border-2 ${
               errors.assignedTo
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                ? "border-red-500"
+                : "border-gray-300 focus:border-blue-500"
             }`}
           >
             <SelectValue placeholder="Assign to..." />
@@ -148,14 +151,15 @@ export function TaskForm({
         </Select>
         <FieldError error={errors.assignedTo} />
       </div>
+
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-semibold text-gray-700">
           Tags
         </label>
         <select
           name="tags"
           multiple
-          className="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-blue-500"
+          className="w-full rounded-lg border-2 border-gray-300 p-2 text-sm focus:border-blue-500"
           defaultValue={task?.tags || []}
         >
           {tags.map((tag) => (
@@ -168,12 +172,14 @@ export function TaskForm({
           Hold Ctrl/Cmd to select multiple tags
         </p>
       </div>
+
       <div className="text-xs text-gray-500">
         <span className="text-red-500">*</span> Required fields
       </div>
+
       <Button
         type="submit"
-        className="w-full bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
       >
         {task ? "Update Task" : "Add Task"}
       </Button>

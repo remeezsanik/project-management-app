@@ -19,7 +19,7 @@ export function FilterSelect({
 }) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="h-12 w-44 border-gray-300 px-4 text-sm font-medium focus:ring-2 focus:ring-blue-500">
+      <SelectTrigger className="h-12 w-full border-gray-300 px-4 text-sm font-medium focus:ring-2 focus:ring-blue-500 md:w-44">
         <SelectValue placeholder={label} />
       </SelectTrigger>
       <SelectContent className="rounded-lg border border-gray-200 bg-white shadow-lg">

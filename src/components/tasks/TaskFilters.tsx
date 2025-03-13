@@ -83,7 +83,7 @@ export function TaskFilters({
             selectedAssignee) && (
             <Button
               variant="outline"
-              className="ml-auto h-12 border-red-300 px-6 text-sm font-semibold hover:bg-gray-100"
+              className="ml-auto h-12 w-full border-red-300 px-6 text-sm font-semibold hover:bg-gray-100 md:w-40"
               onClick={() => {
                 setSelectedStatus(null);
                 setSelectedPriority(null);

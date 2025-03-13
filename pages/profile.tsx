@@ -116,7 +116,7 @@ export default function Profile() {
         style={{
           background: "linear-gradient(135deg, #f0f4ff 0%, #e4eaff 100%)",
           borderRadius: "16px",
-          minHeight: "calc(100vh - 80px)",
+          maxHeight: "calc(100vh - 160px)",
         }}
       >
         <Card className="mb-6 rounded-2xl bg-white shadow-lg">
@@ -126,7 +126,7 @@ export default function Profile() {
                 <User size={30} />
               </div>
               <div>
-                <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-3xl font-bold text-transparent">
+                <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent md:text-3xl">
                   Profile Management
                 </h1>
               </div>

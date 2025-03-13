@@ -1,4 +1,10 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "components/select";
 import { Avatar, AvatarFallback, AvatarImage } from "components/avatar";
 import { UserType } from "@/types/task";
 
@@ -13,7 +19,7 @@ export function AssigneeFilter({
 }) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="h-12 w-48 border-gray-300 px-4 text-sm font-medium focus:ring-2 focus:ring-blue-500">
+      <SelectTrigger className="h-12 w-full border-gray-300 px-4 text-sm font-medium focus:ring-2 focus:ring-blue-500 md:w-48">
         <SelectValue placeholder="Filter by assignee" />
       </SelectTrigger>
       <SelectContent className="rounded-lg border border-gray-200 bg-white shadow-lg">

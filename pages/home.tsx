@@ -1,8 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Layout from "@/components/Layout";
-import { createClient } from "@supabase/supabase-js";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/card";
 import {
   CheckCircle,
@@ -14,79 +13,58 @@ import {
 } from "lucide-react";
 import { Button } from "../components/button";
 import { Progress } from "../components/progress";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { useTasksData } from "@/hooks/useTasksData";
 
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [taskStats, setTaskStats] = useState({
-    total: 0,
-    todo: 0,
-    inProgress: 0,
-    done: 0,
-    highPriority: 0,
-    overdue: 0,
-    assignedToMe: 0,
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { tasks, error, isLoading } = useTasksData(session);
+
+  const taskStats = useMemo(() => {
+    if (!tasks || !tasks.length) {
+      return {
+        total: 0,
+        todo: 0,
+        inProgress: 0,
+        done: 0,
+        highPriority: 0,
+        overdue: 0,
+        assignedToMe: 0,
+      };
+    }
+
+    const today = new Date();
+    const assignedTasks = tasks.filter(
+      (task) => task.assignedTo === session?.user?.id,
+    );
+
+    return {
+      total: tasks.length,
+      todo: tasks.filter((task) => task.status === "Todo").length,
+      inProgress: tasks.filter((task) => task.status === "InProgress").length,
+      done: tasks.filter((task) => task.status === "Done").length,
+      highPriority: tasks.filter((task) => task.priority === "High").length,
+      overdue: tasks.filter((task) => {
+        const deadline = task.deadline ? new Date(task.deadline) : null;
+        return deadline && deadline < today && task.status !== "Done";
+      }).length,
+      assignedToMe: assignedTasks.length,
+    };
+  }, [tasks, session?.user?.id]);
+
+  const completionRate = useMemo(
+    () =>
+      taskStats.total > 0
+        ? Math.round((taskStats.done / taskStats.total) * 100)
+        : 0,
+    [taskStats.total, taskStats.done],
+  );
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
     }
   }, [status, router]);
-
-  useEffect(() => {
-    const fetchTaskStats = async () => {
-      if (!session) return;
-
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // Fetch all tasks
-        const { data: allTasks, error: allTasksError } = await supabase
-          .from("tasks")
-          .select("*");
-
-        if (allTasksError) {
-          console.error("Error fetching all tasks:", allTasksError);
-          setError("Failed to fetch tasks");
-          return;
-        }
-
-        const assignedTasks = allTasks.filter(
-          (task) => task.assignedTo === session?.user?.id,
-        );
-        const today = new Date();
-        const stats = {
-          total: allTasks.length,
-          todo: allTasks.filter((task) => task.status === "Todo").length,
-          inProgress: allTasks.filter((task) => task.status === "InProgress")
-            .length,
-          done: allTasks.filter((task) => task.status === "Done").length,
-          highPriority: allTasks.filter((task) => task.priority === "High")
-            .length,
-          overdue: allTasks.filter((task) => {
-            const deadline = task.deadline ? new Date(task.deadline) : null;
-            return deadline && deadline < today && task.status !== "Done";
-          }).length,
-          assignedToMe: assignedTasks.length,
-        };
-        setTaskStats(stats);
-      } catch (error) {
-        console.error("Error in fetchTaskStats:", error);
-        setError("An unexpected error occurred");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchTaskStats();
-  }, [session]);
 
   if (status === "loading") {
     return (
@@ -103,54 +81,48 @@ export default function HomePage() {
 
   if (!session) return null;
 
-  const completionRate =
-    taskStats.total > 0
-      ? Math.round((taskStats.done / taskStats.total) * 100)
-      : 0;
-
   return (
     <Layout>
       <div
-        className="relative space-y-6 p-6"
+        className="relative space-y-4 p-6"
         style={{
           background: "linear-gradient(135deg, #f0f4ff 0%, #e4eaff 100%)",
           borderRadius: "16px",
           minHeight: "calc(100vh - 80px)",
         }}
       >
-        {/* Decorative background elements */}
-        <div className="absolute right-0 top-0 -z-10 h-64 w-64 rounded-full bg-purple-200 opacity-20 blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -z-10 h-96 w-96 rounded-full bg-blue-200 opacity-20 blur-3xl"></div>
-
-        <div className="mb-6 rounded-2xl border border-white/40 bg-white bg-opacity-80 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl">
-          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <div className="flex items-center gap-4">
-              <div className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 p-3 text-white shadow-lg">
-                <Activity size={32} />
+        <div className="absolute right-0 top-0 -z-10 h-64 w-64 rounded-full bg-purple-200 opacity-20 blur-3xl" />
+        <div className="absolute bottom-0 left-0 -z-10 h-96 w-96 rounded-full bg-blue-200 opacity-20 blur-3xl" />
+        <Card className="mb-6 rounded-2xl border border-white/40 bg-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl">
+          <CardContent className="p-6">
+            <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+              <div className="flex items-center gap-4">
+                <div className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 p-3 text-white shadow-lg">
+                  <Activity size={32} />
+                </div>
+                <div className="w-full">
+                  <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent md:text-3xl">
+                    Welcome, {session?.user?.name || "User"}
+                  </h1>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-indigo-600">Dashboard</p>
-                <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-3xl font-bold text-transparent">
-                  Welcome, {session?.user?.name || "User"}
-                </h1>
-              </div>
+              <Button
+                onClick={() => router.push("/tasks")}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
+              >
+                <span className="flex items-center gap-2">
+                  Go to Task Management <ArrowRight size={16} />
+                </span>
+              </Button>
             </div>
-            <Button
-              onClick={() => router.push("/tasks")}
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
-            >
-              <span className="flex items-center gap-2">
-                Go to Task Management <ArrowRight size={16} />
-              </span>
-            </Button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {error && (
           <div className="mb-6 animate-pulse rounded-2xl border border-red-200 bg-red-100 p-5 text-red-700 shadow-md">
             <div className="flex items-center gap-3">
               <AlertTriangle size={20} />
-              <p className="font-medium">{error}</p>
+              <p className="font-medium">{error.message}</p>
             </div>
           </div>
         )}

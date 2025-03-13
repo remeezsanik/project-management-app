@@ -1,5 +1,4 @@
 // __mocks__/next/router.cjs
-console.log('Mocking next/router');
 module.exports = {
     useRouter: jest.fn(() => ({
         query: {},

@@ -33,8 +33,6 @@ export default NextAuth({
         const user = data[0];
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) throw new Error("Invalid password");
-
-        console.log("Authentication successful:", user.email);
         return {
           id: user.id,
           name: user.name,

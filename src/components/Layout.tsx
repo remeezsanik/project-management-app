@@ -35,9 +35,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           className="border-r border-gray-100 bg-white shadow-sm"
         >
           <SidebarHeader className="border-b border-gray-200 p-4">
-            <h1 className="pointer-events-none overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent">
+            <Link
+              href="/home"
+              className="cursor-pointer overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent"
+            >
               {isSidebarOpen ? "Project X" : "X"}
-            </h1>
+            </Link>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu className="mt-4">

@@ -8,14 +8,18 @@ import { Card, CardContent, CardHeader } from "../components/card";
 import { Input } from "../components/input";
 import { Label } from "../components/label";
 import { toast } from "sonner";
-import { User, Loader2 } from "lucide-react";
-import { updateUserProfile } from "@/service/userService";
+import { User, Loader2, Key } from "lucide-react";
+import { updateUserProfile, updateUserPassword } from "@/service/userService";
 
 export default function Profile() {
   const { data: session, status, update } = useSession();
   const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
+  const [showPasswordSection, setShowPasswordSection] = useState(false);
 
   useEffect(() => {
     if (session?.user?.name) {
@@ -64,6 +68,36 @@ export default function Profile() {
     }
   }
 
+  async function handleUpdatePassword(session: Session | null) {
+    try {
+      if (!session?.user?.id) {
+        throw new Error("User ID is missing");
+      }
+
+      if (!password || password.length < 8) {
+        throw new Error("Password must be at least 8 characters long");
+      }
+
+      if (password !== confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      setPasswordLoading(true);
+      await updateUserPassword(session.user.id, password);
+      toast.success("Password updated successfully");
+      setPassword("");
+      setConfirmPassword("");
+      setShowPasswordSection(false);
+    } catch (error) {
+      console.error("Password update error:", error);
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update password",
+      );
+    } finally {
+      setPasswordLoading(false);
+    }
+  }
+
   if (status === "loading") {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -99,7 +133,9 @@ export default function Profile() {
         style={{
           background: "linear-gradient(135deg, #f0f4ff 0%, #e4eaff 100%)",
           borderRadius: "16px",
-          maxHeight: "calc(100vh - 160px)",
+          minHeight: showPasswordSection ? "auto" : "calc(100vh - 160px)",
+          height: "auto",
+          overflow: "hidden",
         }}
       >
         <Card className="mb-6 rounded-2xl bg-white shadow-lg">
@@ -116,7 +152,7 @@ export default function Profile() {
             </div>
           </CardContent>
         </Card>
-        <div className="flex flex-col items-center justify-center py-10">
+        <div className="flex flex-col items-center justify-center py-6">
           <Card className="w-full max-w-lg rounded-lg bg-white p-6 shadow-lg">
             <CardHeader className="flex flex-col items-center gap-4">
               <Avatar className="h-20 w-20 text-blue-600">
@@ -159,6 +195,74 @@ export default function Profile() {
                   "Update Profile"
                 )}
               </Button>
+
+              {!showPasswordSection ? (
+                <Button
+                  onClick={() => setShowPasswordSection(true)}
+                  variant="outline"
+                  className="mt-4 w-full"
+                >
+                  <Key className="mr-2 h-4 w-4" /> Change Password
+                </Button>
+              ) : (
+                <div className="mt-6 space-y-4 rounded-lg border border-gray-200 p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-medium">Change Password</h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setShowPasswordSection(false);
+                        setPassword("");
+                        setConfirmPassword("");
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                  <div>
+                    <Label>New Password</Label>
+                    <Input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="border-gray-300"
+                      disabled={passwordLoading}
+                      placeholder="Enter new password"
+                    />
+                  </div>
+                  <div>
+                    <Label>Confirm Password</Label>
+                    <Input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="border-gray-300"
+                      disabled={passwordLoading}
+                      placeholder="Confirm new password"
+                    />
+                  </div>
+                  <Button
+                    onClick={() => handleUpdatePassword(session)}
+                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600"
+                    disabled={
+                      passwordLoading ||
+                      !password ||
+                      password !== confirmPassword ||
+                      password.length < 8
+                    }
+                  >
+                    {passwordLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Updating...
+                      </>
+                    ) : (
+                      "Update Password"
+                    )}
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

@@ -58,6 +58,9 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           
+      - name: Debug CloudFront ID
+        run: |
+          echo "CLOUDFRONT_DISTRIBUTION_ID=${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}"
 
       - name: Invalidate CloudFront Cache
         run: |

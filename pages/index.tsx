@@ -34,7 +34,7 @@ export default function LandingPage() {
         )}
       </div>
 
-      <div className="relative z-10 w-full max-w-lg rounded-2xl border border-white/20 bg-white/10 p-12 shadow-2xl backdrop-blur-lg">
+      <div className="relative z-10 mx-5 w-full max-w-lg rounded-2xl border border-white/20 bg-white/10 p-12 shadow-2xl backdrop-blur-lg">
         <div className="flex flex-col items-center text-center">
           <div className="mb-6 rounded-full bg-white/20 p-3">
             <svg
@@ -73,9 +73,13 @@ export default function LandingPage() {
               </g>
             </svg>
           </div>
-          <h1 className="mb-2 flex items-center gap-2 text-4xl font-bold text-white">
-            Welcome to Project{" "}
-            <XLogo width={35} height={35} className="inline-block" />
+          <h1 className="mb-2 flex items-center gap-2 text-2xl font-bold text-white sm:text-4xl">
+            Welcome to Project
+            <XLogo
+              width={25}
+              height={25}
+              className="inline-block sm:h-[35px] sm:w-[35px]"
+            />
           </h1>
 
           <div className="mb-6 h-1 w-16 rounded-full bg-white/50"></div>

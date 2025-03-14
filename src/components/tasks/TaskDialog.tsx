@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTitle } from "components/dialog";
 import { TaskForm } from "./TaskForm";
 import { Edit, PlusCircle } from "lucide-react";
-import { Task, UserType } from "@/types/task";
+import type { Task, UserType } from "@/types/task";
 
 export function TaskDialog({
   isOpen,
@@ -43,7 +43,7 @@ export function TaskDialog({
       description: form.description.value,
       priority: form.priority.value as "Low" | "Medium" | "High",
       deadline: deadlineValue,
-      assignedTo: form.assignedTo.value || undefined,
+      assignedTo: form.assignedTo.value ?? undefined,
       tags: tagValues,
     };
     onSubmit(taskData);
@@ -68,10 +68,12 @@ export function TaskDialog({
           {task ? "Edit Task" : "Create New Task"}
         </DialogTitle>
         <TaskForm
+          key={task ? `edit-${task.id}` : "create-new"}
           task={task}
           users={users}
           tags={tags}
           errors={formErrors}
+          isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
         />
       </DialogContent>

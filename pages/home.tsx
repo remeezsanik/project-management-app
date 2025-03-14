@@ -21,7 +21,7 @@ export default function HomePage() {
   const router = useRouter();
 
   const taskStats = useMemo(() => {
-    if (!tasks || !tasks.length) {
+    if (!tasks) {
       return {
         total: 0,
         todo: 0,
@@ -102,7 +102,7 @@ export default function HomePage() {
                 </div>
                 <div className="w-full">
                   <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent md:text-3xl">
-                    Welcome, {session?.user?.name || "User"}
+                    Welcome, {session?.user?.name ?? "User"}
                   </h1>
                 </div>
               </div>

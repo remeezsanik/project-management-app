@@ -120,9 +120,9 @@ export default function Profile() {
           <Card className="w-full max-w-lg rounded-lg bg-white p-6 shadow-lg">
             <CardHeader className="flex flex-col items-center gap-4">
               <Avatar className="h-20 w-20 text-blue-600">
-                <AvatarImage src={session?.user?.image || ""} />
+                <AvatarImage src={session?.user?.image ?? ""} />
                 <AvatarFallback className="text-2xl font-bold">
-                  {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
+                  {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
                 </AvatarFallback>
               </Avatar>
             </CardHeader>
@@ -131,7 +131,7 @@ export default function Profile() {
                 <Label>Email</Label>
                 <Input
                   type="email"
-                  value={session?.user?.email || ""}
+                  value={session?.user?.email ?? ""}
                   disabled
                   className="border-gray-300"
                 />

@@ -1,4 +1,4 @@
-import { Task } from "@/types/task";
+import type { Task } from "@/types/task";
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";

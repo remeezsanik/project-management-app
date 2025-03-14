@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "components/select";
 import { Avatar, AvatarFallback, AvatarImage } from "components/avatar";
-import { UserType } from "@/types/task";
+import type { UserType } from "@/types/task";
 
 export function AssigneeFilter({
   users,
@@ -28,7 +28,7 @@ export function AssigneeFilter({
           <SelectItem key={user.id} value={user.id}>
             <div className="flex items-center gap-2">
               <Avatar className="h-7 w-7 border border-gray-300 shadow-sm">
-                <AvatarImage src={user.image || ""} />
+                <AvatarImage src={user.image ?? ""} />
                 <AvatarFallback className="bg-gray-100 text-gray-600">
                   {user.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>

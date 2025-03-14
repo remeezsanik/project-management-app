@@ -3,7 +3,7 @@ import { Badge } from "components/badge";
 import { TaskCard } from "./TaskCard";
 import { List, Clock, CheckCircle } from "lucide-react";
 import * as taskUtils from "../../utils/taskUtils";
-import { Task } from "@/types/task";
+import type { Task } from "@/types/task";
 
 export function TaskColumn({
   status,

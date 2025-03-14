@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { Button } from "../components/button";
-import { FormErrors, Task } from "@/types/task";
+import type { FormErrors, Task } from "@/types/task";
 import { useTasksData } from "@/hooks/useTasksData";
 import { TaskHeader } from "@/components/tasks/TaskHeader";
 import { TaskDialog } from "@/components/tasks/TaskDialog";

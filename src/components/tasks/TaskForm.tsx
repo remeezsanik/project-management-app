@@ -9,8 +9,8 @@ import {
 } from "components/select";
 import { Avatar, AvatarFallback, AvatarImage } from "components/avatar";
 import { Button } from "components/button";
-import { CalendarIcon, AlertCircle } from "lucide-react";
-import { Task, UserType } from "@/types/task";
+import { CalendarIcon, AlertCircle, Loader2 } from "lucide-react";
+import type { Task, UserType } from "@/types/task";
 import { useSession } from "next-auth/react";
 
 export function TaskForm({
@@ -19,12 +19,14 @@ export function TaskForm({
   tags,
   errors,
   onSubmit,
+  isSubmitting,
 }: {
   task?: Task;
   users: UserType[];
   tags: string[];
   errors: { [key: string]: string | undefined };
   onSubmit: (e: React.FormEvent) => void;
+  isSubmitting: boolean;
 }) {
   const { data: session } = useSession();
   const FieldError = ({ error }: { error?: string }) =>
@@ -47,7 +49,7 @@ export function TaskForm({
         <Input
           name="title"
           placeholder="Enter task title"
-          defaultValue={task?.title || ""}
+          defaultValue={task?.title ?? ""}
           className={`w-full rounded-lg border-2 ${
             errors.title
               ? "border-red-500 focus:border-red-500"
@@ -65,7 +67,7 @@ export function TaskForm({
           name="description"
           placeholder="Write a detailed description..."
           className="h-28 w-full rounded-lg border-2 border-gray-300 focus:border-blue-500"
-          defaultValue={task?.description || ""}
+          defaultValue={task?.description ?? ""}
         />
       </div>
 
@@ -74,7 +76,7 @@ export function TaskForm({
           <label className="mb-2 block text-sm font-semibold text-gray-700">
             Priority <span className="text-red-500">*</span>
           </label>
-          <Select name="priority" defaultValue={task?.priority || "Medium"}>
+          <Select name="priority" defaultValue={task?.priority ?? "Medium"}>
             <SelectTrigger
               className={`w-full rounded-lg border-2 ${
                 errors.priority
@@ -138,7 +140,7 @@ export function TaskForm({
               <SelectItem key={user.id} value={user.id}>
                 <div className="flex items-center">
                   <Avatar className="mr-2 h-6 w-6">
-                    <AvatarImage src={user.image || ""} />
+                    <AvatarImage src={user.image ?? ""} />
                     <AvatarFallback>
                       {user.name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
@@ -160,7 +162,7 @@ export function TaskForm({
           name="tags"
           multiple
           className="w-full rounded-lg border-2 border-gray-300 p-2 text-sm focus:border-blue-500"
-          defaultValue={task?.tags || []}
+          defaultValue={task?.tags ?? []}
         >
           {tags.map((tag) => (
             <option key={tag} value={tag}>
@@ -179,9 +181,17 @@ export function TaskForm({
 
       <Button
         type="submit"
-        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
+        disabled={isSubmitting}
+        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
       >
-        {task ? "Update Task" : "Add Task"}
+        {isSubmitting ? (
+          <span className="flex items-center justify-center">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            {task ? "Updating..." : "Adding..."}
+          </span>
+        ) : (
+          <>{task ? "Update Task" : "Add Task"}</>
+        )}
       </Button>
     </form>
   );

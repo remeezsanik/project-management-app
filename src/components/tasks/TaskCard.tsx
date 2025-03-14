@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "components/avatar";
 import { Badge } from "components/badge";
 import { Clock, Tag, User, Edit, Trash, CheckCircle } from "lucide-react";
 import * as taskUtils from "../../utils/taskUtils";
-import { Task } from "@/types/task";
+import type { Task } from "@/types/task";
 
 export function TaskCard({
   task,
@@ -75,7 +75,7 @@ export function TaskCard({
             <User size={14} className="mr-2" />
             <span className="font-medium">Assigned to:</span>
             <Avatar className="ml-1 mr-1 h-5 w-5">
-              <AvatarImage src={task.assignedToUser.image || ""} />
+              <AvatarImage src={task.assignedToUser.image ?? ""} />
               <AvatarFallback className="rounded font-semibold text-gray-700">
                 {task.assignedToUser.name.slice(0, 2).toUpperCase()}
               </AvatarFallback>

@@ -23,7 +23,7 @@ export default function SignIn() {
     if (result?.ok) {
       router.push("/home");
     } else {
-      setError(result?.error || "Invalid email or password");
+      setError(result?.error ?? "Invalid email or password");
     }
     setIsLoading(false);
   };

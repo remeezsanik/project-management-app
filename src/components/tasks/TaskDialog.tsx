@@ -24,7 +24,7 @@ export function TaskDialog({
     assignedTo?: string;
     tags?: string[];
   }) => void;
-  formErrors: Record<string, string | undefined>; 
+  formErrors: Record<string, string | undefined>;
   users: UserType[];
   tags: string[];
   isSubmitting: boolean;
@@ -60,11 +60,11 @@ export function TaskDialog({
           boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <DialogTitle className="gradient-text flex items-center gap-2 text-2xl font-bold">
+        <DialogTitle className="gradient-text flex items-center gap-2 text-lg font-bold lg:text-xl">
           {task ? (
-            <Edit className="h-6 w-6 text-indigo-600" />
+            <Edit className="h-5 w-5 text-indigo-600" />
           ) : (
-            <PlusCircle className="h-6 w-6 text-indigo-600" />
+            <PlusCircle className="h-5 w-5 text-indigo-600" />
           )}
           {task ? "Edit Task" : "Create New Task"}
         </DialogTitle>

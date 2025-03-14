@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Toaster } from "../../components/sonner";
 import XLogo from "./icon/XLogo";
+import { Avatar, AvatarFallback, AvatarImage } from "components/avatar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -136,7 +137,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 className="flex cursor-pointer items-center gap-2 rounded-lg p-2 transition-transform duration-300 hover:scale-105 hover:bg-white md:mr-2"
               >
                 <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 bg-white md:h-8 md:w-8">
-                  <User className="h-5 w-5 cursor-pointer text-indigo-500 md:h-4 md:w-4" />
+                  <Avatar className="ml-1 mr-1 h-7 w-7">
+                    <AvatarImage src={session?.user.image ?? ""} />
+                    <AvatarFallback className="rounded font-semibold text-gray-700">
+                      <User className="h-5 w-5 cursor-pointer text-indigo-500 md:h-4 md:w-4" />
+                    </AvatarFallback>
+                  </Avatar>
                 </div>
                 <h2 className="gradient-text text-md hidden cursor-pointer font-semibold md:block">
                   {session?.user?.name}

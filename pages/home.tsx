@@ -101,7 +101,7 @@ export default function HomePage() {
                   <Activity size={32} />
                 </div>
                 <div className="w-full">
-                  <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent md:text-3xl">
+                  <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-lg font-bold text-transparent md:text-xl lg:text-3xl">
                     Welcome, {session?.user?.name ?? "User"}
                   </h1>
                 </div>
@@ -111,7 +111,8 @@ export default function HomePage() {
                 className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 shadow-md transition-all hover:scale-105 hover:shadow-lg"
               >
                 <span className="flex items-center gap-2">
-                  Go to Task Management <ArrowRight size={16} />
+                  Go to Task<span className="hidden lg:block">Management</span>{" "}
+                  <ArrowRight size={16} />
                 </span>
               </Button>
             </div>

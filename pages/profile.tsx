@@ -109,7 +109,7 @@ export default function Profile() {
                 <User size={30} />
               </div>
               <div>
-                <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent md:text-3xl">
+                <h1 className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-lg font-bold text-transparent md:text-xl lg:text-3xl">
                   Profile Management
                 </h1>
               </div>

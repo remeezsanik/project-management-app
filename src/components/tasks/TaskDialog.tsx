@@ -24,14 +24,15 @@ export function TaskDialog({
     assignedTo?: string;
     tags?: string[];
   }) => void;
-  formErrors: { [key: string]: string | undefined };
+  formErrors: Record<string, string | undefined>; 
   users: UserType[];
   tags: string[];
   isSubmitting: boolean;
 }) {
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
+    const formData = new FormData(e.currentTarget);
     const tagValues = Array.from(
       (form.tags as HTMLSelectElement).selectedOptions,
     ).map((option) => option.value);
@@ -39,9 +40,9 @@ export function TaskDialog({
       ? new Date(form.deadline.value)
       : undefined;
     const taskData = {
-      title: form.title.value,
-      description: form.description.value,
-      priority: form.priority.value as "Low" | "Medium" | "High",
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      priority: formData.get("priority") as "Low" | "Medium" | "High",
       deadline: deadlineValue,
       assignedTo: form.assignedTo.value ?? undefined,
       tags: tagValues,

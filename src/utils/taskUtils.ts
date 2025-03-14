@@ -1,4 +1,4 @@
-import { Task } from "@/types/task";
+import type { Task } from "@/types/task";
 
 export function isTaskOverdue(task: Task): boolean {
   if (!task.deadline || task.status === "Done") return false;

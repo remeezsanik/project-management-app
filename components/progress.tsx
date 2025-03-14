@@ -40,7 +40,7 @@ const Progress = React.forwardRef<
     switch (variant) {
       case "gradient":
         return {
-          background: `linear-gradient(90deg, ${colorStart || '#4338ca'}, ${colorEnd || '#ec4899'})`,
+          background: `linear-gradient(90deg, ${colorStart ?? '#4338ca'}, ${colorEnd ?? '#ec4899'})`,
           transform: `translateX(-${100 - safeValue}%)`
         };
       case "rainbow":

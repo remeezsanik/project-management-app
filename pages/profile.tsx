@@ -1,6 +1,6 @@
 import { signIn, useSession } from "next-auth/react";
 import { useState, useEffect, useCallback } from "react";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import Layout from "@/components/Layout";
 import { Button } from "../components/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/avatar";

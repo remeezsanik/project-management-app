@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import * as taskService from "../service/taskService";
-import { Task, UserType } from "@/types/task";
+import type { Task, UserType } from "@/types/task";
+import type { Session } from "next-auth";
 
-export function useTasksData(session: any) {
+export function useTasksData(session: Session | null) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [users, setUsers] = useState<UserType[]>([]);
   const [tags, setTags] = useState<string[]>([]);
@@ -47,7 +48,7 @@ export function useTasksData(session: any) {
 
   useEffect(() => {
     if (session) fetchData();
-  }, [session?.user?.id]);
+  }, [session]);
 
   return {
     tasks,

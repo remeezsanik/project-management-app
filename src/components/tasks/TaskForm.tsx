@@ -24,8 +24,8 @@ export function TaskForm({
   task?: Task;
   users: UserType[];
   tags: string[];
-  errors: { [key: string]: string | undefined };
-  onSubmit: (e: React.FormEvent) => void;
+  errors: Record<string, string | undefined>;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isSubmitting: boolean;
 }) {
   const { data: session } = useSession();

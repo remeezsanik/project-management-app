@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useSession } from "next-auth/react";
 import { Button } from "./button";
+import type { Task } from "@/types/task";
+import { format } from "date-fns";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,7 +12,7 @@ const supabase = createClient(
 
 export default function TaskList() {
   const { data: session } = useSession();
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,7 +21,7 @@ export default function TaskList() {
 
   const fetchTasks = async () => {
     const { data } = await supabase.from("tasks").select("*");
-    setTasks(data || []);
+    setTasks(data ?? []);
     setLoading(false);
   };
 
@@ -90,7 +92,8 @@ export default function TaskList() {
           <h3 className="text-lg">{task.title}</h3>
           <p>{task.description}</p>
           <p>
-            Priority: {task.priority} | Deadline: {task.deadline}
+            Priority: {task.priority} | Deadline:{" "}
+            {task.deadline ? format(task.deadline, "dd/MM/yyyy") : undefined}
           </p>
         </div>
       ))}

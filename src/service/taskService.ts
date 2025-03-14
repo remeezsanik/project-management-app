@@ -1,8 +1,8 @@
 import type { Task } from "@/types/task";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function getTasks() {
@@ -14,7 +14,7 @@ export async function getTasks() {
       ...task,
       deadline: task.deadline ? new Date(task.deadline) : undefined,
       createdAt: new Date(task.createdAt),
-      tags: task.tags || [],
+      tags: task.tags ?? [],
     };
     if (task.assignedTo) {
       const { data: userData, error } = await supabase
@@ -32,13 +32,13 @@ export async function getTasks() {
 export async function getUsers() {
   const { data, error } = await supabase.from("Users").select("id, name, image");
   if (error) throw error;
-  return data || [];
+  return data ?? [];
 }
 
 export async function getTags() {
   const { data, error } = await supabase.from("tags").select("name");
   if (error) throw error;
-  return data.map((tag) => tag.name) || [];
+  return data.map((tag) => tag.name) ?? [];
 }
 
 export async function createTask(formData: {
@@ -54,7 +54,7 @@ export async function createTask(formData: {
     ...formData,
     status: "Todo",
     createdAt: new Date().toISOString(),
-    assignedTo: formData.assignedTo || formData.userId,
+    assignedTo: formData.assignedTo ?? formData.userId,
     deadline: formData.deadline ? formData.deadline.toISOString() : null,
   };
   const { data, error } = await supabase.from("tasks").insert([newTask]).select();

@@ -31,7 +31,7 @@ export const updateUserPassword = async (userId: string, password: string) => {
 
     if (!response.ok) {
       const data = await response.json();
-      throw new Error(data.message || "Failed to update password");
+      throw new Error(data.message ?? "Failed to update password");
     }
 
     return { success: true };

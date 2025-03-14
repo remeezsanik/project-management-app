@@ -1,5 +1,4 @@
-// pages/api/user/update-password.ts
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from "bcrypt";
 import { getSession } from "next-auth/react";

@@ -91,7 +91,7 @@ export default function SignIn() {
               value={email}
               onChange={(e) => setEmail(e.target.value.toLowerCase())}
               placeholder="Email"
-              className="w-full rounded-lg border border-white/30 bg-[rgba(255,255,255,0.1)] p-3 pl-10 text-white placeholder-white/60 backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="w-full rounded-lg border border-white/30 bg-[rgba(255,255,255,0.1)] p-3 pl-10 text-gray-800 placeholder-white/60 backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
               required
               disabled={isLoading}
             />
@@ -119,7 +119,7 @@ export default function SignIn() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full rounded-lg border border-white/30 bg-[rgba(255,255,255,0.1)] p-3 pl-10 text-white placeholder-white/60 backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="w-full rounded-lg border border-white/30 bg-[rgba(255,255,255,0.1)] p-3 pl-10 text-gray-900 placeholder-white/60 backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
               required
               disabled={isLoading}
             />

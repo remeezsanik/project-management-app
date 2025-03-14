@@ -25,12 +25,11 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="flex h-screen bg-gray-50">
-      <SidebarProvider defaultOpen={true}>
+      <SidebarProvider open={isOpen} onOpenChange={setIsOpen}>
         <Sidebar
           collapsible="icon"
           className="border-r border-gray-100 bg-white shadow-sm"
@@ -40,9 +39,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               href="/home"
               className="cursor-pointer overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent"
             >
-              {isSidebarOpen ? (
+              {isOpen ? (
                 <div className="flex items-center gap-1">
-                  <h1 className="gradient-text font-light tracking-wider">
+                  <h1 className="gradient-text sidebar-text font-light tracking-wider">
                     Project{" "}
                   </h1>
                   <XLogo
@@ -56,7 +55,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               )}
             </Link>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent className="overflow-x-clip">
             <SidebarMenu className="mt-4">
               <SidebarMenuItem>
                 <SidebarMenuButton
@@ -111,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               onClick={() => signOut({ callbackUrl: "/" })}
               className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white transition-colors hover:bg-gray-50"
             >
-              {isSidebarOpen && (
+              {isOpen && (
                 <span className="gradient-text font-semibold text-gray-700">
                   Log Out
                 </span>
@@ -120,14 +119,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </Button>
           </SidebarFooter>
         </Sidebar>
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-y-auto overflow-x-clip">
           <div className="p-6">
             <div className="mb-2 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <SidebarTrigger
-                  onClick={toggleSidebar}
-                  className="rounded-lg p-2 transition-colors hover:bg-gray-100"
-                />
+                <SidebarTrigger className="rounded-lg p-2 transition-colors hover:bg-gray-100" />
                 <h2 className="gradient-text pointer-events-none text-xl font-semibold">
                   {router.pathname === "/home" && "Dashboard"}
                   {router.pathname === "/tasks" && "Tasks"}

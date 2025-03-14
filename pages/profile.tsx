@@ -202,12 +202,12 @@ export default function Profile() {
                   variant="outline"
                   className="mt-4 w-full"
                 >
-                  <Key className="mr-2 h-4 w-4" /> Change Password
+                  <Key className="hidden md:block mr-2 h-4 w-4" /> Change Password
                 </Button>
               ) : (
                 <div className="mt-6 space-y-4 rounded-lg border border-gray-200 p-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Change Password</h3>
+                    <h3 className="text-md md:text-lg font-medium">Change Password</h3>
                     <Button
                       variant="ghost"
                       size="sm"

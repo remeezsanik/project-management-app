@@ -27,9 +27,13 @@ export function TaskCard({
         <h3 className="font-medium text-gray-900">
           {task.title}
           {isOverdue && (
+            <>
+            <br />
             <span className="ml-2 text-xs font-medium text-red-600">
               (Overdue)
             </span>
+            </>
+            
           )}
         </h3>
         <div className="flex items-center gap-2">
